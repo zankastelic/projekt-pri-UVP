@@ -371,6 +371,7 @@ def milijonar():
     print('''Odgovorite tako, da napište črko, za katero mislite, da je odgovor pravilen npr(a).''') 
     print('''Na voljo imate tudi polovičko (če jo želite izkoristiti napišete 'polovička') ''')
     print('''Prav tako imate na voljo glas ljudstva (če jo želite izkoristiti napišete 'glas ljudstva') ''')
+    # bgh
     stikalo = False
     while stikalo == False:
         x = random.randint(1, len(resitve)) #pa če se enkrat že pojavi se ne sme več, to tut ne znam nastavt 
