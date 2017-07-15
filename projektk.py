@@ -271,10 +271,10 @@ resitve = ['a','b','b','a','d','b','c','a','b','a','c','a','a','c','b','c','a','
 polovicke = ['b','d','d','c','a','d','b','c','d','b','b','d','d','a','a','a','b','b','b','c','c','c','a','a','b','a','d','a','b','a','b','a','d','b','d',
              'a','b','a','c','a','a','c','b','c','b','a','c','d','d','d'] # 50 
 
-nagrada = [50 , 100 , 200, 300, 500, 750, 1500, 2500, 3500, 5000, 7500, 12500, 25000, 50000, 100000]
+nagrada = [100 , 200, 300, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 125000, 250000, 500000, 1000000]
 
 
-def polovicka1(x):
+def polovicka(x):
     pravilen = resitve[x]
     skoraj = polovicke[x]
     if pravilen == 'a':
@@ -317,10 +317,11 @@ def polovicka1(x):
         if skoraj == 'c':
             polovicca = input(odgovori3[x] + '\n' +
                               odgovori4[x] + '\n')
+    return polovicca
 
 
 
-def polovicka(x):
+'''def polovicka1(x):
     pravilen_odgovor = resitve[x]
     if pravilen_odgovor == 'a':
         polovica = input(odgovori1[x] + '\n' +
@@ -339,28 +340,49 @@ def polovicka(x):
     if pravilen_odgovor == 'd':
         polovica = input(odgovori4[x] + '\n' +
                          random.choice([odgovori1[x],odgovori2[x],
-                                        odgovori3[x]]) + '\n')
+                                        odgovori3[x]]) + '\n')'''
 
 #tle pr polovički ni kul, k ti da najprej pravilen odgovor, morš premešat nekak, shuffle nč ne vrača? najprej ti pravilnega vže pol pa kr enga, mislm sej tko je koda napisana no :D
 #jst bi tko naredu da bo še vedno po vrsti, pač da bo A prva, tut če je B rešitev
 # eno od teh dveh polovičk izberi, ta prvo se da še lepo uredit samo jst ne znam glih neki no
 #pa tle pr polovički ni nadaljevanja, kako prklopiš da se nadaljuje 
 
-def glas_ljudstva(x):
+def glas_ljudstva(x, y):
     pravilen_odgovor = resitve[x]
-    stevilo = random.random() * 100
-    vsota_je_sto = [round(stevilo, 2),
-                    round(round(100 - round(stevilo, 2), 2) / 4, 2),
-                    round(round(100 - round(stevilo, 2), 2) / 2, 2),
-                    round(100 - round(stevilo, 2) - round(round(100 - round(stevilo, 2), 2) / 4, 2) -
-                    round(round(100 - round(stevilo, 2), 2) / 2, 2), 2)]
+    moznost_zgresitve = y * 0.05
+    if pravilen_odgovor == 'a':
+        ostalo = moznost_zgresitve
+        b = round(random.uniform(0, moznost_zgresitve), 2)
+        c = round(random.uniform(0, moznost_zgresitve - b), 2)
+        d = round((moznost_zgresitve - b - c), 2) 
+        vsota_je_sto = [round((1 - moznost_zgresitve), 2)  * 100,b * 100 ,c * 100 ,d * 100]
+    if pravilen_odgovor == 'b':
+        ostalo = moznost_zgresitve
+        a = round(random.uniform(0, moznost_zgresitve), 2)
+        c = round(random.uniform(0, moznost_zgresitve - a), 2)
+        d = round((moznost_zgresitve - a - c), 2) 
+        vsota_je_sto = [a  * 100,round((1 - moznost_zgresitve), 2) * 100 ,c * 100 ,d * 100]
+    if pravilen_odgovor == 'c':
+        ostalo = moznost_zgresitve
+        a = round(random.uniform(0, moznost_zgresitve), 2)
+        b = round(random.uniform(0, moznost_zgresitve - a), 2)
+        d = round((moznost_zgresitve - a - b), 2)  
+        vsota_je_sto = [a  * 100,b * 100 ,round((1 - moznost_zgresitve), 2) * 100 ,d * 100]
+    if pravilen_odgovor == 'd':
+        ostalo = moznost_zgresitve
+        a = round(random.uniform(0, moznost_zgresitve), 2)
+        b = round(random.uniform(0, moznost_zgresitve - a), 2)
+        c = round((moznost_zgresitve - a - b), 2) 
+        vsota_je_sto = [a  * 100,b * 100 ,c * 100 ,round((1 - moznost_zgresitve), 2)* 100]
+
     ljudstvo = input(odgovori1[x] + ' ' + str(vsota_je_sto[0]) + '%' + '\n' +
                      odgovori2[x] + ' ' + str(vsota_je_sto[1]) + '%' + '\n' +
                      odgovori3[x] + ' ' + str(vsota_je_sto[2]) + '%' + '\n' +
                      odgovori4[x] + ' ' + str(vsota_je_sto[3])  + '%' + '\n')
+    return ljudstvo
 
-def izhod():
-    print('Četitamo zadeli ste' + str(stanje) + ' €!')
+def izhod(stanje):
+    print('Četitamo zadeli ste',stanje,'€!')
     print('Igra se zapira ...')
 # ta glas ljudstva, enkrat dela enkrat ne?? pa mogoče bi se dal izboljšat, da un k je pravilen da ma res največ odstotkov, k zdej bl random ne bi mogl bit
 def milijonar():
@@ -369,40 +391,95 @@ def milijonar():
     print('''Dobrodošli v Milijonarju o Sloveniji!''')
     print('''Denarna nagrada znaša 100000€.''')
     print('''Odgovorite tako, da napište črko, za katero mislite, da je odgovor pravilen npr(a).''') 
-    print('''Na voljo imate tudi polovičko (če jo želite izkoristiti napišete 'polovička') ''')
-    print('''Prav tako imate na voljo glas ljudstva (če jo želite izkoristiti napišete 'glas ljudstva') ''')
+    print('''Na voljo imate tudi polovičko (če jo želite izkoristiti napišete 'polovička'). ''')
+    print('''Prav tako imate na voljo glas ljudstva (če jo želite izkoristiti napišete 'glas ljudstva'). ''')
+    print('''Polovičke in glasu ljudtva ne morete izkoristiti pri istem vprašanju.''') 
     # bgh
-    stikalo = False
-    while stikalo == False:
-        x = random.randint(1, len(resitve)) #pa če se enkrat že pojavi se ne sme več, to tut ne znam nastavt 
-        vprasanja_ze_bla = []
-        if stanje == 100000:
+    vprasanja_ze_bla = []
+    izkoriscena_polovicka = False
+    izkoriscen_glas_ljudstva = False
+    while True:
+        x = random.randint(0, len(resitve)-1) #pa če se enkrat že pojavi se ne sme več, to tut ne znam nastavt
+        
+        if stanje == 1000000:
             print('Čestitamo, osvojili ste PRVO nagrado!')
             break
-        if x not in vprasanja_ze_bla: 
-            primer = input(vprasanja[x] + '\n' + odgovori1[x] + '\n' +
-                           odgovori2[x] + '\n' + odgovori3[x] + '\n' +
-                           odgovori4[x] + '\n')
+        if x not in vprasanja_ze_bla:
+            print("TESTING: odgovor", resitve[x],vprasanja_ze_bla)
+            primer = input(izpisi_vprasanje(x))
+            primer = preveri(primer,izkoriscena_polovicka,izkoriscen_glas_ljudstva,x)
             if primer == resitve[x]:
-                #pa zakaj mi nikol ne prime pravilne rešitve, kaj sm naredu narobe
                 stanje = nagrada[y]
                 y += 1 
                 print('Bravo prislužili ste si ' + str(stanje) + ' €!')
-            elif primer.lower() == 'polovička': # za eno se določ od polovič, polovička 1 je bolš napisana sam se da na krajš 
-                polovicka(x)
-            elif primer.lower() == 'polovička1':
-                polovicka1(x)
+            elif primer.lower() == 'polovička':
+                primer = polovicka(x)
+                izkoriscena_polovicka = True
+                if primer == resitve[x]:
+                    stanje = nagrada[y]
+                    y += 1 
+                    print('Bravo prislužili ste si ' + str(stanje) + ' €!')
+                elif primer == 'glas ljudstva':
+                    print('Pri istem vprašanju ne morete izkoristiti obeh možnosti.')
+                    primer = polovicka(x)
+                    stanje = nagrada[y]
+                    y += 1 
+                    print('Bravo prislužili ste si ' + str(stanje) + ' €!')
+                else:
+                    print('Žal je ta odgovor napačen! Hvala za Vaš trud. Več sreče prihodnjič! ')
+                    break
             elif primer.lower() == 'glas ljudstva':
-                glas_ljudstva(x)
-            elif primer.lower == 'izhod': # zakaj ne dela? 
-                izhod() 
+                primer = glas_ljudstva(x, y)
+                izkoriscen_glas_ljudstva = True
+                if primer == resitve[x]:
+                    stanje = nagrada[y]
+                    y += 1 
+                    print('Bravo prislužili ste si ' + str(stanje) + ' €!')
+                elif primer == 'polovička':
+                    print('Pri istem vprašanju ne morete izkoristiti obeh možnosti.')
+                    primer = glas_ljudstva(x, y)
+                    stanje = nagrada[y]
+                    y += 1 
+                    print('Bravo prislužili ste si ' + str(stanje) + ' €!')
+                else:
+                    print('Žal je ta odgovor napačen! Hvala za Vaš trud. Več sreče prihodnjič! ')
+                    break
+            elif primer.lower() == 'izhod':
+                izhod(stanje) 
                 break
-            elif primer != 'a' or primer != 'b' or primer != 'c' or primer != 'd':
+            else:
                 print('Žal je ta odgovor napačen! Hvala za Vaš trud. Več sreče prihodnjič! ')
                 break
             
-        vprasanja_ze_bla.append(x)
-        
+            vprasanja_ze_bla.append(x)
+
+def izpisi_vprasanje(x):
+    return vprasanja[x] + '\n' + odgovori1[x] + '\n' + odgovori2[x] + '\n' + odgovori3[x] + '\n' + odgovori4[x] + '\n'
+
+def preveri(primer, izkoriscena_polovicka, izkoriscen_glas_ljudstva,x):
+    porabljeno = True
+    while porabljeno:
+        porabljeno = False
+        if izkoriscena_polovicka and izkoriscen_glas_ljudstva:
+            if primer == 'polovička':
+                porabljeno = True
+                primer = input('polovičko si že porabil \n' + izpisi_vprasanje(x))
+            if primer == 'glas ljudstva':
+                porabljeno = True
+                primer = input('glas ljudstva si že porabil \n' + izpisi_vprasanje(x))
+        elif izkoriscena_polovicka:
+            if primer == 'polovička':
+                porabljeno = True
+                primer = input('polovičko si že porabil \n' + izpisi_vprasanje(x))
+        elif izkoriscen_glas_ljudstva:
+            if primer == 'glas ljudstva':
+                porabljeno = True
+                primer = input('glas ljudstva si že porabil \n' + izpisi_vprasanje(x))
+            
+    return primer
+            
+            
+            
 
 
     
