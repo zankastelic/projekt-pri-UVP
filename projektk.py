@@ -1,5 +1,6 @@
 import random
 import tkinter as tk
+
 vprasanja = [
 'Kako je bilo ime prvemu slovenskemu protestantskemu učitelju in prvemu slovničarju slovenskega jezika?', 
 'Katerega leta je bila v Kranjski gori v okviru takratnega Slovenskega planinskega društva ustanovljena Gorska reševalna zveza Slovenije?',
@@ -33,7 +34,7 @@ vprasanja = [
 'Kolikšen delež volivcev se  je leta 1990 na plebiscitu o neodvisnosti izrekel za samostojno Slovenijo?', 
 'Kakšen ples je štajeriš, ki je razširjen po vsem slovenskem ozemlju, razen v Reziji?',
 'Katerega leta je v Ljubljani začelo delovati prvo telefonsko omrežje?', 
-'Kako imenujemo turistično prireditev, povezano s splavarjenjem v Ljubnem ob Savinji?', # 33
+'Kako imenujemo turistično prireditev, povezano s splavarjenjem v Ljubnem ob Savinji?', 
 'Koliko je dolga reka Drava v Sloveniji?',
 'V kateri vasi v Goriških brdih vsako leto prirejajo festival Dnevi poezije in vina?',
 'Katerega leta je začel izhajati osrednji slovenski dnevnik Delo?',
@@ -139,7 +140,7 @@ odgovori2 = [
 'B: 79 odstotkov',
 'B: Otroški ples', 
 'B: Leta 1897', 
-'B: Flosarski bal', # 33
+'B: Flosarski bal',
 'B: Okoli 82 kilometrov', 
 'B: V Medani', 
 'B: Leta 1919', 
@@ -193,7 +194,7 @@ odgovori3 = [
 'C: 89 odstotkov',
 'C: Pogrebni ples', 
 'C: Leta 1915', 
-'C: Savinjski bal', # 33
+'C: Savinjski bal',
 'C: Okoli 140 kilometrov', 
 'C: V Šmartnem', 
 'C: Leta 1945', 
@@ -246,7 +247,7 @@ odgovori4 = [
 'D: 95 odstotkov',
 'D: Snubitveni ples', 
 'D: Leta 1930', 
-'D: Splavarsko popoldne', # 33
+'D: Splavarsko popoldne',
 'D: Okoli 500 kilometrov', 
 'D: V Vilenici', 
 'D: Leta 1959', 
@@ -267,9 +268,9 @@ odgovori4 = [
 ]
 
 resitve = ['a','b','b','a','d','b','c','a','b','a','c','a','a','c','b','c','a','a','c','a','a','d','b','c','a','b','b','b','a','c','d','b','b',
-           'c','b','d','d', 'd', 'a', 'b','c', 'd','a', 'b','a','d','a','a','c', 'c'] # 50
+           'c','b','d','d', 'd', 'a', 'b','c', 'd','a', 'b','a','d','a','a','c', 'c']
 polovicke = ['b','d','d','c','a','d','b','c','d','b','b','d','d','a','a','a','b','b','b','c','c','c','a','a','b','a','d','a','b','a','b','a','d','b','d',
-             'a','b','a','c','a','a','c','b','c','b','a','c','d','d','d'] # 50 
+             'a','b','a','c','a','a','c','b','c','b','a','c','d','d','d'] 
 
 nagrada = [100 , 200, 300, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 125000, 250000, 500000, 1000000]
 
@@ -342,11 +343,6 @@ def polovicka(x):
                          random.choice([odgovori1[x],odgovori2[x],
                                         odgovori3[x]]) + '\n')'''
 
-#tle pr polovički ni kul, k ti da najprej pravilen odgovor, morš premešat nekak, shuffle nč ne vrača? najprej ti pravilnega vže pol pa kr enga, mislm sej tko je koda napisana no :D
-#jst bi tko naredu da bo še vedno po vrsti, pač da bo A prva, tut če je B rešitev
-# eno od teh dveh polovičk izberi, ta prvo se da še lepo uredit samo jst ne znam glih neki no
-#pa tle pr polovički ni nadaljevanja, kako prklopiš da se nadaljuje 
-
 def glas_ljudstva(x, y):
     pravilen_odgovor = resitve[x]
     moznost_zgresitve = y * 0.05
@@ -384,28 +380,28 @@ def glas_ljudstva(x, y):
 def izhod(stanje):
     print('Četitamo zadeli ste',stanje,'€!')
     print('Igra se zapira ...')
-# ta glas ljudstva, enkrat dela enkrat ne?? pa mogoče bi se dal izboljšat, da un k je pravilen da ma res največ odstotkov, k zdej bl random ne bi mogl bit
+    
 def milijonar():
     stanje = 0
     y = 0
     print('''Dobrodošli v Milijonarju o Sloveniji!''')
-    print('''Denarna nagrada znaša 100000€.''')
+    print('''Denarna nagrada znaša 1.000.000€.''')
     print('''Odgovorite tako, da napište črko, za katero mislite, da je odgovor pravilen npr(a).''') 
     print('''Na voljo imate tudi polovičko (če jo želite izkoristiti napišete 'polovička'). ''')
     print('''Prav tako imate na voljo glas ljudstva (če jo želite izkoristiti napišete 'glas ljudstva'). ''')
-    print('''Polovičke in glasu ljudtva ne morete izkoristiti pri istem vprašanju.''') 
-    # bgh
+    print('''Polovičke in glasu ljudstva ne morete izkoristiti pri istem vprašanju.''' + '\n')
+    
     vprasanja_ze_bla = []
     izkoriscena_polovicka = False
     izkoriscen_glas_ljudstva = False
     while True:
-        x = random.randint(0, len(resitve)-1) #pa če se enkrat že pojavi se ne sme več, to tut ne znam nastavt
+        x = random.randint(0, len(resitve)-1)
         
         if stanje == 1000000:
             print('Čestitamo, osvojili ste PRVO nagrado!')
             break
         if x not in vprasanja_ze_bla:
-            print("TESTING: odgovor", resitve[x],vprasanja_ze_bla)
+            #print("TESTING: odgovor", resitve[x],vprasanja_ze_bla)
             primer = input(izpisi_vprasanje(x))
             primer = preveri(primer,izkoriscena_polovicka,izkoriscen_glas_ljudstva,x)
             if primer == resitve[x]:
@@ -480,7 +476,9 @@ def preveri(primer, izkoriscena_polovicka, izkoriscen_glas_ljudstva,x):
             
             
             
+milijonar()
 
 
     
+
         
